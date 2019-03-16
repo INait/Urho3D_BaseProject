@@ -1,5 +1,5 @@
 # Set project name
-project (SpaceGame)
+project (YourProjectName)
 
 # Set minimum version
 cmake_minimum_required (VERSION 3.2.3)
@@ -12,6 +12,8 @@ if (COMMAND cmake_policy)
     cmake_policy (SET CMP0026 OLD)
     # MACOSX_RPATH is enabled by default
     cmake_policy (SET CMP0042 NEW)
+    # Honor the visibility properties for SHARED target types only
+    cmake_policy (SET CMP0063 OLD)
 endif ()
 
 if (WIN32)
@@ -25,7 +27,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 include (UrhoCommon)
 
 # Define target name
-set (TARGET_NAME SpaceGame)
+set (TARGET_NAME YourTargetName)
 
 # Define source files
 define_source_files (GROUP RECURSE EXCLUDE_PATTERNS CMake/Modules/CheckUrho3DLibrary.cpp)

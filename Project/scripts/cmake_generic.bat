@@ -1,5 +1,5 @@
 ::
-:: Copyright (c) 2008-2017 the Urho3D project.
+:: Copyright (c) 2008-2019 the Urho3D project.
 ::
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,10 @@
 @echo off
 
 :: Determine source tree and build tree
+setlocal
 set "SOURCE=%~dp0"
-set "SOURCE=%SOURCE:~0,-1%"
+set "SOURCE=%SOURCE:~0,-1%\.."
+set "SOURCE=%cd%"
 set "BUILD="
 if "%~1" == "" goto :continue
 set "ARG1=%~1"
@@ -37,7 +39,6 @@ if "%BUILD%" == "" if exist "%cd%\CMakeCache.txt" (set "BUILD=%cd%") else (echo 
 :: Detect CMake toolchains directory if it is not provided explicitly
 if "%TOOLCHAINS%" == "" set "TOOLCHAINS=%SOURCE%\CMake\Toolchains"
 if not exist "%TOOLCHAINS%" if exist "%URHO3D_HOME%\share\CMake\Toolchains" set "TOOLCHAINS=%URHO3D_HOME%\share\CMake\Toolchains"
-:: BEWARE that the TOOLCHAINS variable leaks to caller's environment!
 
 :: Default to native generator and toolchain if none is specified explicitly
 set "OPTS="
@@ -45,7 +46,7 @@ set "BUILD_OPTS="
 set "arch="
 :loop
 if not "%~1" == "" (
-    if "%~1" == "-DANDROID" if "%~2" == "1" set "OPTS=-G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="%TOOLCHAINS%\Android.cmake""
+    if "%~1" == "-DANDROID" if "%~2" == "1" (echo For Android platform, use Gradle build system instead of invoking CMake build system directly! && exit /B 1)
     if "%~1" == "-DWEB" if "%~2" == "1" set "OPTS=-G "MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE="%TOOLCHAINS%\Emscripten.cmake""
     if "%~1" == "-DMINGW" if "%~2" == "1" set "OPTS=-G "MinGW Makefiles""
     if "%~1" == "-DURHO3D_64BIT" if "%~2" == "1" set "arch= Win64"

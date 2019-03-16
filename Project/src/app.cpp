@@ -10,16 +10,16 @@
 #endif
 
 #include "config.h"
-#include "stateManager/gameStateHandler.h"
-#include "stateManager/gameStateEvents.h"
-#include "utility/sharedData.h"
-#include "legacyMode/utility/lSharedData.h"
-#include "prefabs/prefabsStorage.h"
-#include "legacyMode/space/lSpaceState.h"
-#include "tacticalMode/space/tSpaceState.h"
-#include "ai/AIManager.h"
-#include "utility/registration.h"
-#include "legacyMode/utility/lRegistration.h"
+//#include "stateManager/gameStateHandler.h"
+//#include "stateManager/gameStateEvents.h"
+//#include "utility/sharedData.h"
+//#include "legacyMode/utility/lSharedData.h"
+//#include "prefabs/prefabsStorage.h"
+//#include "legacyMode/space/lSpaceState.h"
+//#include "tacticalMode/space/tSpaceState.h"
+//#include "ai/AIManager.h"
+//#include "utility/registration.h"
+//#include "legacyMode/utility/lRegistration.h"
 
 #include "app.h"
 
@@ -77,6 +77,7 @@ void SpaceGame::Setup()
 #endif // URHO3D_LUA
 	}
 
+	/*
 #ifdef URHO3D_LUA
 	if (scriptFileName_ == String::EMPTY)
 	{
@@ -94,7 +95,8 @@ void SpaceGame::Setup()
 	lSharedData->isServerWithoutPlayer_ = serverWithoutPlayer;
 	sharedData->isServerWithoutPlayer_ = serverWithoutPlayer;
 
-	LGameSpaceState::RegisterComponents(context_);
+	/LGameSpaceState::RegisterComponents(context_);
+	*/
 }
 
 void SpaceGame::Start()
@@ -135,6 +137,8 @@ void SpaceGame::Start()
 	}
 
 	SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(SpaceGame, HandleKeyDown));
+	
+	/*
 	SubscribeToEvent(G_STATE_EXIT_GAME, URHO3D_HANDLER(SpaceGame, HandleGameExit));
 
 	Registration::RegisterGameObjects(context_);
@@ -173,6 +177,7 @@ void SpaceGame::Start()
 		}
 #endif // URHO3D_LUA
 	}
+	*/
 }
 
 void SpaceGame::Stop()

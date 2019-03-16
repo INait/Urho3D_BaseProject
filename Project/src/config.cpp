@@ -130,11 +130,11 @@ String Configuration::StringFromKey(InputDeviceType deviceType, S32 key) const
 	{
 		case InputDeviceType::Keyboard:
 		{
-			return input->GetKeyName(key);
+			return input->GetKeyName(static_cast<Urho3D::Key>(key));
 		}
 		case InputDeviceType::Mouse:
 		{
-			return MouseKeyName(key);
+			return MouseKeyName(static_cast<Urho3D::Key>(key));
 		}
 		default:
 			return "";
@@ -281,7 +281,7 @@ void Configuration::SaveUserActionMap()
 
 			actionUnitJson["device"] = StringFromDeviceType(userActionUnit.second.deviceType_);
 			if (userActionUnit.second.deviceType_ == InputDeviceType::Keyboard)
-				actionUnitJson["key"] = input->GetKeyName(userActionUnit.second.key_);
+				actionUnitJson["key"] = input->GetKeyName(static_cast<Urho3D::Key>(userActionUnit.second.key_));
 			else if (userActionUnit.second.deviceType_ == InputDeviceType::Mouse)
 				actionUnitJson["key"] = MouseKeyName(userActionUnit.second.key_);
 		}
@@ -315,11 +315,11 @@ bool Configuration::GetActionKeyInput(GameInputActions action) const
 	{
 		if (userActionUnit.second.deviceType_ == InputDeviceType::Keyboard)
 		{
-			keyInputWorked = keyInputWorked || input->GetKeyDown(userActionUnit.second.key_);
+			keyInputWorked = keyInputWorked || input->GetKeyDown(static_cast<Urho3D::Key>(userActionUnit.second.key_));
 		}
 		else if (userActionUnit.second.deviceType_ == InputDeviceType::Mouse)
 		{
-			keyInputWorked = keyInputWorked || input->GetMouseButtonDown(userActionUnit.second.key_);
+			// keyInputWorked = keyInputWorked || input->GetMouseButtonDown(userActionUnit.second.key_);
 		}
 	}
 
