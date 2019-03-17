@@ -5,39 +5,24 @@
 #include <Urho3D/Resource/Localization.h>
 #include <Urho3D/Audio/Audio.h>
 #include <Urho3D/IO/FileSystem.h>
-#ifdef URHO3D_LUA
-#include <Urho3D/LuaScript/LuaScript.h>
-#endif
 
 #include "config.h"
-//#include "stateManager/gameStateHandler.h"
-//#include "stateManager/gameStateEvents.h"
-//#include "utility/sharedData.h"
-//#include "legacyMode/utility/lSharedData.h"
-//#include "prefabs/prefabsStorage.h"
-//#include "legacyMode/space/lSpaceState.h"
-//#include "tacticalMode/space/tSpaceState.h"
-//#include "ai/AIManager.h"
-//#include "utility/registration.h"
-//#include "legacyMode/utility/lRegistration.h"
+#include "stateManager/gameStateHandler.h"
+#include "stateManager/gameStateEvents.h"
 
 #include "app.h"
 
 using namespace Urho3D;
 
-URHO3D_DEFINE_APPLICATION_MAIN(SpaceGame)
+URHO3D_DEFINE_APPLICATION_MAIN(YourProjectName)
 
-#ifdef URHO3D_LUA
-extern S32 tolua_gameStateHandler_open(lua_State*);
-#endif
-
-SpaceGame::SpaceGame(Context* context) :
+YourProjectName::YourProjectName(Context* context) :
 	Application(context)
 {
 	scriptedRun_ = false;
 }
 
-void SpaceGame::Setup()
+void YourProjectName::Setup()
 {
 	Configuration* config = new Configuration(context_);
 	context_->RegisterSubsystem(config);
@@ -65,41 +50,10 @@ void SpaceGame::Setup()
 		{
 			serverWithoutPlayer = true;
 		}
-#ifdef URHO3D_LUA
-		else
-		{
-			scriptFileName_ = GetInternalPath(argument);
-			String extension = GetExtension(scriptFileName_);
-
-			if (extension == ".lua" || extension == ".luc")
-				scriptedRun_ = true;
-		}
-#endif // URHO3D_LUA
 	}
-
-	/*
-#ifdef URHO3D_LUA
-	if (scriptFileName_ == String::EMPTY)
-	{
-		scriptFileName_ = "Scripts/start.lua";
-		scriptedRun_ = true;
-	}
-#endif // URHO3D_LUA
-
-	LSharedData* lSharedData = new LSharedData(context_);
-	SharedData* sharedData = new SharedData(context_);
-
-	context_->RegisterSubsystem(lSharedData);
-	context_->RegisterSubsystem(sharedData);
-
-	lSharedData->isServerWithoutPlayer_ = serverWithoutPlayer;
-	sharedData->isServerWithoutPlayer_ = serverWithoutPlayer;
-
-	/LGameSpaceState::RegisterComponents(context_);
-	*/
 }
 
-void SpaceGame::Start()
+void YourProjectName::Start()
 {
 	// set the mouse visible
 	GetSubsystem<Input>()->SetMouseVisible(true);
@@ -136,56 +90,22 @@ void SpaceGame::Start()
 		debugHud->SetDefaultStyle(xmlFile);
 	}
 
-	SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(SpaceGame, HandleKeyDown));
-	
-	/*
-	SubscribeToEvent(G_STATE_EXIT_GAME, URHO3D_HANDLER(SpaceGame, HandleGameExit));
+	SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(YourProjectName, HandleKeyDown));
+	SubscribeToEvent(G_STATE_EXIT_GAME, URHO3D_HANDLER(YourProjectName, HandleGameExit));
 
-	Registration::RegisterGameObjects(context_);
-	LRegistration::RegisterGameObjects(context_);
-
-	AI::AIManager* AIManager = new AI::AIManager(context_);
-	context_->RegisterSubsystem(AIManager);
-	AIManager->LoadBehaviors();
-
-	context_->RegisterSubsystem(new PrefabsStorage(context_));
-
+	// Create state handler
 	GameStateHandler* stateHandler = new GameStateHandler(context_);
 	context_->RegisterSubsystem(stateHandler);
 
-	if (!scriptedRun_)
-	{
-		if (GetSubsystem<SharedData>()->isServerWithoutPlayer_)
-			stateHandler->Start(GameStates::MULTI_FAST);
-		else
-			stateHandler->Start(GameStates::START_MAIN_MENU);
-	}
-	else
-	{
-#ifdef URHO3D_LUA
-		// Instantiate and register the Lua script subsystem
-		LuaScript* luaScript = new LuaScript(context_);
-		context_->RegisterSubsystem(luaScript);
-
-		lua_State* luaState = luaScript->GetState();
-		tolua_gameStateHandler_open(luaState);
-
-		// If script loading is successful, proceed to main loop
-		if (luaScript->ExecuteFile(scriptFileName_))
-		{
-			luaScript->ExecuteFunction("Start");
-		}
-#endif // URHO3D_LUA
-	}
-	*/
+	stateHandler->Start(GameStates::START_MAIN_MENU);
 }
 
-void SpaceGame::Stop()
+void YourProjectName::Stop()
 {
 	engine_->DumpResources(true);
 }
 
-String SpaceGame::GenerateWindowTitle() const
+String YourProjectName::GenerateWindowTitle() const
 {
 	String result =
 		GetTypeName()
@@ -203,7 +123,7 @@ String SpaceGame::GenerateWindowTitle() const
 	return result;
 }
 
-void SpaceGame::HandleKeyDown(StringHash eventType, VariantMap & eventData)
+void YourProjectName::HandleKeyDown(StringHash eventType, VariantMap & eventData)
 {
 	S32 qual = eventData[KeyDown::P_QUALIFIERS].GetInt();
 	S32 key = eventData[KeyDown::P_KEY].GetInt();
@@ -239,7 +159,7 @@ void SpaceGame::HandleKeyDown(StringHash eventType, VariantMap & eventData)
 	}
 }
 
-void SpaceGame::HandleGameExit(StringHash eventType, VariantMap& eventData)
+void YourProjectName::HandleGameExit(StringHash eventType, VariantMap& eventData)
 {
 	engine_->Exit();
 }

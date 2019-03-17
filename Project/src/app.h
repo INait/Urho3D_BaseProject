@@ -10,13 +10,13 @@ static const U32 NUM_SOURCE_TYPES = NUM_RACE;
 // All Urho3D classes reside in namespace Urho3D
 using namespace Urho3D;
 
-class SpaceGame : public Application
+class YourProjectName : public Application
 {
-	URHO3D_OBJECT(SpaceGame, Application);
+	URHO3D_OBJECT(YourProjectName, Application);
 
 public:
 	/// Construct.
-	SpaceGame(Context* context);
+	YourProjectName(Context* context);
 
 	/// Setup before engine initialization. Modifies the engine parameters.
 	virtual void Setup();
